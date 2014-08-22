@@ -74,7 +74,7 @@ Handle<Value> Sign(const Arguments& args) {
 	const unsigned char* messageData = (unsigned char*)Buffer::Data(message);
 	size_t messageLen = Buffer::Length(message);
 	unsigned long long sigLen = 64 + messageLen;
-	unsigned char signatureMessageData[sigLen];
+	const unsigned char signatureMessageData[sigLen];
 	crypto_sign(signatureMessageData, &sigLen, messageData, messageLen, privateKey);
 	Buffer* signature = Buffer::New(64);
 	unsigned char* signatureData = (unsigned char*)Buffer::Data(signature);
