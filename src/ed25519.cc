@@ -74,16 +74,16 @@ Handle<Value> Sign(const Arguments& args) {
 	const unsigned char* messageData = (unsigned char*)Buffer::Data(message);
 	size_t messageLen = Buffer::Length(message);
 	unsigned long long sigLen = 64 + messageLen;
-	unsigned char* z = NULL;
-	z = new unsigned char signatureMessageData[sigLen];
+	unsigned char* signatureMessageData = NULL;
+	signatureMessageData = new unsigned char[sigLen];
 	crypto_sign(signatureMessageData, &sigLen, messageData, messageLen, privateKey);
 	Buffer* signature = Buffer::New(64);
 	unsigned char* signatureData = (unsigned char*)Buffer::Data(signature);
 	for (int i = 0; i < 64; i++) {
-		signatureData[i] = z[i];
+		signatureData[i] = signatureMessageData[i];
 	}
-	delete [] z;
-	z = NULL;
+	delete [] signatureMessageData;
+	signatureMessageData = NULL;
 	return scope.Close(signature->handle_);
 }
 
